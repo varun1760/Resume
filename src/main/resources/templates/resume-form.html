@@ -1,0 +1,382 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume View</title>
+    <!-- Google fonts -->
+    <link href="//fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Template CSS Style link -->
+    <link rel="stylesheet" href="/assets/css/style-starter.css">
+</head>
+
+<body>
+    <!-- header -->
+    <div th:replace="~{header :: header}">...</div>
+    <!-- //header -->
+
+    <!-- inner banner -->
+    <section class="inner-banner py-5">
+        <div class="w3l-breadcrumb py-lg-5">
+            <div class="container pt-4 pb-sm-4">
+                <h4 class="inner-text-title pt-5">Resume Form</h4>
+                <ul class="breadcrumbs-custom-path">
+                    <li><a th:href="@{/home}">Home</a></li>
+                    <li class="active"><i class="fas fa-angle-right"></i><a href="javascript:history.back()">Resume-Options</a></li>
+                    <li class="active"><i class="fas fa-angle-right"></i>Resume-form</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- //inner banner -->
+
+    <section class="container py-2">
+        <div class="container py-2">
+            <h2 class="mb-4 text-center">Enter Your Resume Details</h2>
+            <br>
+
+            <form th:action="@{/resume/form}" th:object="${resumeJson}" method="post">
+
+                <!-- ============================
+                      PERSONAL INFO
+                ============================== -->
+                <h4 class="mt-4">Personal Information</h4>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Name</label>
+                        <input type="text" th:field="*{personalInfo.name}" class="form-control" required/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Location</label>
+                        <input type="text" th:field="*{personalInfo.location}" class="form-control"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Email</label>
+                        <input type="email" th:field="*{personalInfo.email}" class="form-control"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Contact</label>
+                        <input type="text" th:field="*{personalInfo.contact}" class="form-control"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>LinkedIn</label>
+                        <input type="text" th:field="*{personalInfo.linkedin}" class="form-control"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>GitHub</label>
+                        <input type="text" th:field="*{personalInfo.github}" class="form-control"/>
+                    </div>
+                </div>
+
+                <!-- ============================
+                      PROFESSIONAL SUMMARY
+                ============================== -->
+                <h4 class="mt-5">Professional Summary</h4>
+
+                <div class="mb-3">
+                    <textarea th:field="*{professionalDetails.summary}" class="form-control" rows="4"
+                              placeholder="Write a short professional summary">
+                    </textarea>
+                </div>
+
+
+                <!-- ============================
+                      SKILLS + LEARNING GOALS
+                ============================== -->
+                <h4 class="mt-5">Quick Fields (comma-separated)</h4>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Skills</label>
+                        <input type="text" name="skillsCsv" class="form-control"
+                               placeholder="Java, Spring Boot, MySQL"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Learning Goals</label>
+                        <input type="text" name="learningGoalsCsv" class="form-control"
+                               placeholder="Docker, AWS, CI/CD"/>
+                    </div>
+                </div>
+
+                <hr class="my-5"/>
+
+
+                <!-- ============================
+                      EXPERIENCE SECTION
+                ============================== -->
+                <h4 class="mb-3">Experience</h4>
+
+                <div th:each="exp, expStat : *{professionalDetails.experiences}">
+
+                    <h5>Experience [[${expStat.index} + 1]]</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Role</label>
+                            <input th:field="*{professionalDetails.experiences[__${expStat.index}__].role}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Company</label>
+                            <input th:field="*{professionalDetails.experiences[__${expStat.index}__].company}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Duration</label>
+                            <input th:field="*{professionalDetails.experiences[__${expStat.index}__].duration}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Location</label>
+                            <input th:field="*{professionalDetails.experiences[__${expStat.index}__].location}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label>Tech Stack (comma separated)</label>
+                            <input th:field="*{professionalDetails.experiences[__${expStat.index}__].techStack}"
+                                   class="form-control" placeholder="Java, Spring Boot, MySQL"/>
+                        </div>
+                    </div>
+
+                    <!-- ============================
+                          PROJECTS UNDER EXPERIENCE
+                    ============================== -->
+                    <div th:each="proj, projStat : ${exp.projects}" class="mt-4 p-3">
+                        <h5>Project [[${projStat.index} + 1]]</h5>
+
+                        <div class="mb-3">
+                            <label>Project Name</label>
+                            <input th:field="*{professionalDetails.experiences[__${expStat.index}__].projects[__${projStat.index}__].name}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Responsibilities (comma separated)</label>
+                            <textarea th:field="*{professionalDetails.experiences[__${expStat.index}__].projects[__${projStat.index}__].responsibilities}"
+                                      class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Achievements (comma separated)</label>
+                            <textarea th:field="*{professionalDetails.experiences[__${expStat.index}__].projects[__${projStat.index}__].achievements}"
+                                      class="form-control" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ============================
+                      EDUCATION SECTION
+                ============================== -->
+                <h4 class="mt-5">Education</h4>
+
+                <div th:each="edu, eduStat : *{professionalDetails.educationList}">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Degree</label>
+                            <input th:field="*{professionalDetails.educationList[__${eduStat.index}__].degree}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Institute</label>
+                            <input th:field="*{professionalDetails.educationList[__${eduStat.index}__].institute}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Location</label>
+                            <input th:field="*{professionalDetails.educationList[__${eduStat.index}__].location}"
+                                   type="text" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Year</label>
+                            <input th:field="*{professionalDetails.educationList[__${eduStat.index}__].year}"
+                                   type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ============================
+                      TECHNICAL SKILLS
+                ============================== -->
+                <h4 class="mt-5">Technical Skills (comma-separated)</h4>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Programming Languages</label>
+                        <input th:field="*{technicalSkills.programmingLanguages}"
+                               class="form-control" placeholder="Java, Python, SQL"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Frameworks & Libraries</label>
+                        <input th:field="*{technicalSkills.frameworksAndLibraries}"
+                               class="form-control" placeholder="Spring Boot, Hibernate"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>APIs & Web Technologies</label>
+                        <input th:field="*{technicalSkills.apisAndWebTechnologies}"
+                               class="form-control" placeholder="REST, JSON, AJAX"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Databases</label>
+                        <input th:field="*{technicalSkills.databases}"
+                               class="form-control" placeholder="MySQL, PostgreSQL"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>DB Access</label>
+                        <input th:field="*{technicalSkills.dbAccess}"
+                               class="form-control" placeholder="JDBC, JPA, Flyway"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Tools</label>
+                        <input th:field="*{technicalSkills.tools}"
+                               class="form-control" placeholder="Postman, IntelliJ, Git"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Version Control</label>
+                        <input th:field="*{technicalSkills.versionControl}"
+                               class="form-control" placeholder="Git, GitHub"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Testing</label>
+                        <input th:field="*{technicalSkills.testing}"
+                               class="form-control" placeholder="JUnit, Mockito"/>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Project Management</label>
+                        <input th:field="*{technicalSkills.projectManagement}"
+                               class="form-control" placeholder="Jira, Agile"/>
+                    </div>
+                </div>
+
+                <hr class="my-5"/>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-style w-40 py-2">
+                        Generate Resume
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+    </section>
+
+    <!-- footer block -->
+    <div th:replace="~{footer :: footer}">...</div>
+    <!-- //footer block -->
+
+    <!-- Js scripts -->
+    <!-- move top -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fas fa-level-up-alt" aria-hidden="true"></span>
+    </button>
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+    <!-- //move top -->
+
+    <!-- common jquery plugin -->
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <!-- //common jquery plugin -->
+
+    <!-- /counter-->
+    <script src="/assets/js/counter.js"></script>
+    <!-- //counter-->
+
+    <!-- theme switch js (light and dark)-->
+    <script src="/assets/js/theme-change.js"></script>
+    <!-- //theme switch js (light and dark)-->
+
+    <!-- MENU-JS -->
+    <script>
+        $(window).on("scroll", function () {
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 80) {
+                $("#site-header").addClass("nav-fixed");
+            } else {
+                $("#site-header").removeClass("nav-fixed");
+            }
+        });
+
+        //Main navigation Active Class Add Remove
+        $(".navbar-toggler").on("click", function () {
+            $("header").toggleClass("active");
+        });
+        $(document).on("ready", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+            $(window).on("resize", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+            });
+        });
+    </script>
+    <!-- //MENU-JS -->
+
+    <!-- disable body scroll which navbar is in active -->
+    <script>
+        $(function () {
+            $('.navbar-toggler').click(function () {
+                $('body').toggleClass('noscroll');
+            })
+        });
+    </script>
+    <!-- //disable body scroll which navbar is in active -->
+
+    <!-- bootstrap -->
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!-- //bootstrap -->
+    <!-- //Js scripts -->
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume View</title>
+    <!-- Google fonts -->
+    <link href="//fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Template CSS Style link -->
+    <link rel="stylesheet" href="/assets/css/style-starter.css">
+</head>
+
+<body>
+    <!-- header -->
+    <div th:replace="~{header :: header}">...</div>
+    <!-- //header -->
+
+    <!-- inner banner -->
+    <section class="inner-banner py-5">
+        <div class="w3l-breadcrumb py-lg-5">
+            <div class="container pt-4 pb-sm-4">
+                <h4 class="inner-text-title pt-5">Resume Options</h4>
+                <ul class="breadcrumbs-custom-path">
+                    <li><a th:href="@{/home}">Home</a></li>
+                    <li class="active"><i class="fas fa-angle-right"></i>Resume-Options</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- //inner banner -->
+
+    <section class="inner-banner py-2">
+        <div class="container text-center">
+            <h2>Select How You Want to Generate Your Resume</h2>
+            <p class="mt-3">Choose any of the following methods</p>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+
+            <div class="row g-4">
+
+                <!-- OPTION 1 -->
+                <div class="col-md-4">
+                    <div class="card p-4 mb-3">
+                        <h4>Option 1 – Upload JSON</h4>
+                        <p>Download a JSON template, fill your details, and upload.</p>
+                        <a th:href="@{/resume/download-template}" class="btn btn-style mt-lg-5 mt-4">
+                            Download JSON Template
+                        </a>
+
+                        <!-- Toggle upload section -->
+                        <button class="btn btn-style-3 mt-lg-4 mt-4" onclick="toggleUpload()">Upload Filled JSON</button>
+
+                        <!-- Hidden upload box -->
+                        <div id="uploadBox" style="display:none; margin-top: 15px;">
+                            <form th:action="@{/resume/upload}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="file" accept="application/json" required class="form-control mb-3">
+                                <button type="submit" class="btn btn-success w-100">Generate Resume</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OPTION 2 -->
+                <div class="col-md-4">
+                    <div class="card p-4 mb-3">
+                        <h4>Option 2 – Fill Form</h4>
+                        <p>Enter details manually in a clean form.</p>
+                        <a th:href="@{/resume/form}" class="btn btn-style mt-lg-5 mt-4"> Fill Resume Form</a>
+                    </div>
+                </div>
+
+                <!-- OPTION 3 -->
+                <div class="col-md-4">
+                    <div class="card p-4 mb-3">
+                        <h4>Option 3 – Use Default Resume</h4>
+                        <p>View resume with predefined hard-coded data.</p>
+                        <a th:href="@{/resume/use-default}" class="btn btn-style mt-lg-5 mt-4"> View Default Resume</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        function toggleUpload() {
+            const box = document.getElementById("uploadBox");
+            box.style.display = box.style.display === "none" ? "block" : "none";
+        }
+    </script>
+
+    <!-- footer block -->
+    <div th:replace="~{footer :: footer}">...</div>
+    <!-- //footer block -->
+
+    <!-- Js scripts -->
+    <!-- move top -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        <span class="fas fa-level-up-alt" aria-hidden="true"></span>
+    </button>
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+    <!-- //move top -->
+
+    <!-- common jquery plugin -->
+    <script src="/assets/js/jquery-3.3.1.min.js"></script>
+    <!-- //common jquery plugin -->
+
+    <!-- /counter-->
+    <script src="/assets/js/counter.js"></script>
+    <!-- //counter-->
+
+    <!-- theme switch js (light and dark)-->
+    <script src="/assets/js/theme-change.js"></script>
+    <!-- //theme switch js (light and dark)-->
+
+    <!-- MENU-JS -->
+    <script>
+        $(window).on("scroll", function () {
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 80) {
+                $("#site-header").addClass("nav-fixed");
+            } else {
+                $("#site-header").removeClass("nav-fixed");
+            }
+        });
+
+        //Main navigation Active Class Add Remove
+        $(".navbar-toggler").on("click", function () {
+            $("header").toggleClass("active");
+        });
+        $(document).on("ready", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+            $(window).on("resize", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+            });
+        });
+    </script>
+    <!-- //MENU-JS -->
+
+    <!-- disable body scroll which navbar is in active -->
+    <script>
+        $(function () {
+            $('.navbar-toggler').click(function () {
+                $('body').toggleClass('noscroll');
+            })
+        });
+    </script>
+    <!-- //disable body scroll which navbar is in active -->
+
+    <!-- bootstrap -->
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!-- //bootstrap -->
+    <!-- //Js scripts -->
+</body>
+
+</html>
