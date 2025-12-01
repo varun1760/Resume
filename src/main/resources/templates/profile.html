@@ -1,0 +1,325 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume View</title>
+    <!-- Google fonts -->
+    <link href="//fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Template CSS Style link -->
+    <link rel="stylesheet" href="/assets/css/style-starter.css">
+</head>
+
+<body>
+<!-- header -->
+<div th:replace="~{header :: header}">...</div>
+<!-- //header -->
+
+<!-- inner banner -->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">Resume Form</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li class="active"><i class="fas fa-angle-right"></i>
+                    <a href="javascript:history.back()" class="back-link">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </li>
+                <li class="active"><i class="fas fa-angle-right"></i>Profile</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- //inner banner -->
+
+<section class="container py-4">
+    <div class="container d-flex justify-content-center">
+        <div class="profile-card shadow-lg p-4 rounded-4" style="max-width: 600px; width: 100%;">
+
+<!--            <div class="d-flex justify-content-end mb-3">-->
+<!--                <a href="/profile/reset" class="btn btn-danger btn-sm">-->
+<!--                    Reset to Default-->
+<!--                </a>-->
+<!--            </div>-->
+
+            <!-- Profile Image -->
+            <div class="text-center mb-4">
+                <img th:src="${navProfileImage}"
+                     class="rounded-circle mb-3"
+                     style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #f8f9fa;" />
+
+                <!-- Name -->
+                <div class="editable-field d-flex justify-content-center align-items-center gap-2" data-field="name">
+                    <label class="text-muted small mb-0">Name:</label>
+                    <span class="value" th:text="${info.name}"></span>
+
+                    <input class="edit-input form-control" style="display:none;">
+                    <div class="action-buttons mt-1" style="display:none;">
+                        <button class="save-btn btn btn-sm btn-primary">Save</button>
+                        <button class="cancel-btn btn btn-sm btn-secondary ms-2">Cancel</button>
+                    </div>
+
+                    <i class="fas fa-edit edit-icon text-primary" style="cursor:pointer;"></i>
+                </div>
+
+
+                <!-- Job Title -->
+                <div class="editable-field d-flex justify-content-center align-items-center gap-2" data-field="jobTitle">
+                    <label class="text-muted small">Job Title:</label>
+
+                    <span class="value text-muted"
+                          th:text="${jobTitle}"
+                          style="font-size: 0.95rem;">
+                    </span>
+
+                    <input class="edit-input form-control form-control-sm mt-1" style="display:none;">
+
+                    <div class="action-buttons mt-2" style="display:none;">
+                        <button class="save-btn btn btn-sm btn-primary">Save</button>
+                        <button class="cancel-btn btn btn-sm btn-secondary ms-2">Cancel</button>
+                    </div>
+
+                    <i class="fas fa-edit edit-icon text-primary ms-2" style="cursor:pointer;"></i>
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Contact Info -->
+            <div class="mb-4">
+                <div class="section-label fw-bold mb-2" style="font-size: 1.1rem;">Contact Information</div>
+
+                <!-- Email -->
+                <div class="editable-field d-flex justify-content-between align-items-center" data-field="email">
+                    <label>Email:</label>
+                    <span class="value" th:text="${info.email}"></span>
+
+                    <input class="edit-input form-control" style="display:none;">
+                    <div class="action-buttons mt-1" style="display:none;">
+                        <button class="save-btn btn btn-sm btn-primary">Save</button>
+                        <button class="cancel-btn btn btn-sm btn-secondary ms-2">Cancel</button>
+                    </div>
+
+                    <i class="fas fa-edit edit-icon text-primary" style="cursor:pointer;"></i>
+                </div>
+
+                <!-- Contact -->
+                <div class="editable-field d-flex justify-content-between align-items-center" data-field="contact">
+                    <label>Contact:</label>
+                    <span class="value" th:text="${info.contact}"></span>
+
+                    <input class="edit-input form-control" style="display:none;">
+                    <div class="action-buttons mt-1" style="display:none;">
+                        <button class="save-btn btn btn-sm btn-primary">Save</button>
+                        <button class="cancel-btn btn btn-sm btn-secondary ms-2">Cancel</button>
+                    </div>
+
+                    <i class="fas fa-edit edit-icon text-primary" style="cursor:pointer;"></i>
+                </div>
+
+                <!-- Location -->
+                <div class="editable-field d-flex justify-content-between align-items-center" data-field="location">
+                    <label>Location:</label>
+
+                    <span class="value"
+                          th:text="${info.location}"
+                          style="color: #fbb034;">
+                    </span>
+
+                    <input class="edit-input form-control form-control-sm mt-1" style="display:none;">
+                    <div class="action-buttons mt-2" style="display:none;">
+                        <button class="save-btn btn btn-sm btn-primary">Save</button>
+                        <button class="cancel-btn btn btn-sm btn-secondary ms-2">Cancel</button>
+                    </div>
+
+                    <i class="fas fa-edit edit-icon text-primary ms-2" style="cursor:pointer;"></i>
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <!-- About -->
+            <div class="editable-field mb-3" data-field="about">
+                <div class="section-label fw-bold mb-2" style="font-size: 1.1rem;">About</div>
+
+                <span class="value" th:text="${info.about}"></span>
+
+                <textarea class="edit-input form-control" rows="3" style="display:none;"></textarea>
+
+                <div class="action-buttons mt-1" style="display:none;">
+                    <button class="save-btn btn btn-sm btn-primary">Save</button>
+                    <button class="cancel-btn btn btn-sm btn-secondary ms-2">Cancel</button>
+                </div>
+
+                <i class="fas fa-edit edit-icon text-primary" style="cursor:pointer;"></i>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<!-- footer block -->
+<div th:replace="~{footer :: footer}">...</div>
+<!-- //footer block -->
+
+<!-- Js scripts -->
+<!-- move top -->
+<button onclick="topFunction()" id="movetop" title="Go to top">
+    <span class="fas fa-level-up-alt" aria-hidden="true"></span>
+</button>
+<script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("movetop").style.display = "block";
+        } else {
+            document.getElementById("movetop").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+<!-- //move top -->
+
+<!-- common jquery plugin -->
+<script src="/assets/js/jquery-3.3.1.min.js"></script>
+<!-- //common jquery plugin -->
+
+<!-- /counter-->
+<script src="/assets/js/counter.js"></script>
+<!-- //counter-->
+
+<!-- theme switch js (light and dark)-->
+<script src="/assets/js/theme-change.js"></script>
+<!-- //theme switch js (light and dark)-->
+
+<!-- MENU-JS -->
+<script>
+    $(window).on("scroll", function () {
+        var scroll = $(window).scrollTop();
+
+        if (scroll >= 80) {
+            $("#site-header").addClass("nav-fixed");
+        } else {
+            $("#site-header").removeClass("nav-fixed");
+        }
+    });
+
+    //Main navigation Active Class Add Remove
+    $(".navbar-toggler").on("click", function () {
+        $("header").toggleClass("active");
+    });
+    $(document).on("ready", function () {
+        if ($(window).width() > 991) {
+            $("header").removeClass("active");
+        }
+        $(window).on("resize", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+        });
+    });
+</script>
+<!-- //MENU-JS -->
+
+<!-- disable body scroll which navbar is in active -->
+<script>
+    $(function () {
+        $('.navbar-toggler').click(function () {
+            $('body').toggleClass('noscroll');
+        })
+    });
+</script>
+<!-- //disable body scroll which navbar is in active -->
+
+<!-- bootstrap -->
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- //bootstrap -->
+<!-- //Js scripts -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        document.querySelectorAll(".editable-field").forEach(field => {
+
+            const valueEl = field.querySelector(".value");
+            const inputEl = field.querySelector(".edit-input");
+            const editIcon = field.querySelector(".edit-icon");
+            const saveBtn = field.querySelector(".save-btn");
+            const cancelBtn = field.querySelector(".cancel-btn");
+            const actionBtns = field.querySelector(".action-buttons");
+
+            // Edit Button Click
+            editIcon.addEventListener("click", () => {
+                inputEl.value = valueEl.innerText.trim();
+
+                valueEl.style.display = "none";
+                inputEl.style.display = "block";
+
+                actionBtns.style.display = "block";
+                editIcon.style.display = "none";
+            });
+
+            // Cancel Button Click
+            cancelBtn.addEventListener("click", () => {
+                inputEl.style.display = "none";
+                valueEl.style.display = "inline";
+
+                actionBtns.style.display = "none";
+                editIcon.style.display = "inline";
+            });
+
+            // Save Button Click
+            saveBtn.addEventListener("click", () => {
+
+                const fieldName = field.getAttribute("data-field");
+                const newValue = inputEl.value.trim();
+
+                fetch("/profile/update", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ field: fieldName, value: newValue })
+                })
+                .then(res => res.text())
+                .then(data => {
+                    if (data === "ok") {
+                        valueEl.innerText = newValue;
+                    }
+                });
+
+                valueEl.style.display = "inline";
+                inputEl.style.display = "none";
+
+                actionBtns.style.display = "none";
+                editIcon.style.display = "inline";
+            });
+
+        });
+
+    });
+</script>
+
+
+</body>
+
+</html>

@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ProfessionalDetails {
+    private String jobTitle;
     private String summary;
     private List<Experience> experiences = new ArrayList<>();
     private List<Education> educationList = new ArrayList();

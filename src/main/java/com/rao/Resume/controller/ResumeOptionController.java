@@ -39,14 +39,16 @@ public class ResumeOptionController {
     public ResponseEntity<?> downloadTemplate() {
         String template = "{\n    \"personalInfo\": {\n        \"name\": \"\",\n        \"location\": \"\",\n        \"email\": \"\",\n        \"contact\": \"\",\n        \"linkedin\": \"\",\n        \"github\": \"\"\n    },\n    \"professionalDetails\": {\n        \"summary\": \"\",\n        \"experiences\": [],\n        \"educationList\": [],\n        \"skills\": [],\n        \"learningGoals\": []\n    },\n    \"technicalSkills\": {\n        \"programmingLanguages\": [],\n        \"frameworksAndLibraries\": [],\n        \"apisAndWebTechnologies\": [],\n        \"databases\": [],\n        \"dbAccess\": [],\n        \"tools\": [],\n        \"versionControl\": [],\n        \"testing\": [],\n        \"projectManagement\": []\n    }\n}\n";
         ByteArrayResource resource = new ByteArrayResource(template.getBytes());
-        return ((ResponseEntity.BodyBuilder)ResponseEntity.ok().header("Content-Disposition", new String[]{"attachment; filename=\"resume-template.json\""})).body(resource);
+        return ResponseEntity.ok()
+                .header("Content-Disposition", new String[]{"attachment; filename=\"resume-template.json\""})
+                .body(resource);
     }
 
     @PostMapping({"/upload"})
     public String uploadJson(@RequestParam("file") MultipartFile file, Model model) {
         try {
-            ResumeJson data = (ResumeJson)this.objectMapper.readValue(file.getInputStream(), ResumeJson.class);
-            this.resumeService.saveResume(data);
+            ResumeJson data = objectMapper.readValue(file.getInputStream(), ResumeJson.class);
+            resumeService.saveResume(data);
             return "redirect:/resume/view";
         } catch (Exception var4) {
             model.addAttribute("error", "Invalid JSON file!");
@@ -70,40 +72,55 @@ public class ResumeOptionController {
     }
 
     @PostMapping({"/form"})
-    public String handleForm(@ModelAttribute ResumeJson resumeJson, @RequestParam(required = false) String skillsCsv, @RequestParam(required = false) String learningGoalsCsv) {
+    public String handleForm(
+            @ModelAttribute ResumeJson resumeJson, @RequestParam(required = false) String skillsCsv,
+            @RequestParam(required = false) String learningGoalsCsv) {
         if (skillsCsv != null) {
             resumeJson.getProfessionalDetails()
-                    .setSkills((List) Arrays.stream(skillsCsv.split(",")).map(String::trim).collect(Collectors.toList()));
+                    .setSkills(Arrays.stream(skillsCsv.split(","))
+                            .map(String::trim)
+                            .collect(Collectors.toList()));
         }
 
         if (learningGoalsCsv != null) {
-            resumeJson.getProfessionalDetails().setLearningGoals((List)Arrays.stream(learningGoalsCsv.split(",")).map(String::trim).collect(Collectors.toList()));
+            resumeJson.getProfessionalDetails()
+                    .setLearningGoals(Arrays.stream(learningGoalsCsv.split(","))
+                            .map(String::trim)
+                            .collect(Collectors.toList()));
         }
 
         for(Experience exp : resumeJson.getProfessionalDetails().getExperiences()) {
             if (exp.getTechStack() != null && exp.getTechStack().size() == 1) {
-                String csv = (String)exp.getTechStack().get(0);
-                exp.setTechStack((List)Arrays.stream(csv.split(",")).map(String::trim).collect(Collectors.toList()));
+                String csv = exp.getTechStack().get(0);
+                exp.setTechStack(Arrays.stream(csv.split(","))
+                        .map(String::trim)
+                        .collect(Collectors.toList())
+                );
             }
 
             for(Project p : exp.getProjects()) {
                 if (p.getResponsibilities() != null && p.getResponsibilities().size() == 1) {
-                    p.setResponsibilities((List)Arrays.stream(((String)p.getResponsibilities().get(0)).split(",")).map(String::trim).collect(Collectors.toList()));
+                    p.setResponsibilities(Arrays.stream(p.getResponsibilities().get(0).split(","))
+                            .map(String::trim)
+                            .collect(Collectors.toList())
+                    );
                 }
 
                 if (p.getAchievements() != null && p.getAchievements().size() == 1) {
-                    p.setAchievements((List)Arrays.stream(((String)p.getAchievements().get(0)).split(",")).map(String::trim).collect(Collectors.toList()));
+                    p.setAchievements(Arrays.stream(p.getAchievements().get(0).split(","))
+                            .map(String::trim)
+                            .collect(Collectors.toList()));
                 }
             }
         }
 
-        this.resumeService.saveResume(resumeJson);
+        resumeService.saveResume(resumeJson);
         return "redirect:/resume/view";
     }
 
     @GetMapping({"/use-default"})
     public String useDefaultResume() {
-        this.resumeService.saveResume(this.staticResumeService.getStaticResume());
+        resumeService.saveResume(staticResumeService.getStaticResume());
         return "redirect:/resume/view";
     }
 }

@@ -7,6 +7,8 @@ import com.rao.Resume.model.ResumeJson;
 import com.rao.Resume.utilities.helper.DocxBuilder;
 import com.rao.Resume.utilities.helper.PdfBuilder;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,19 +21,13 @@ import java.util.List;
 @Service
 public class ResumeService {
     private ResumeJson resumeJson;
+    @Getter
+    @Setter
     public byte[] profileImage;
     private static final long MAX_FILE_SIZE = 2097152L;
     private static final List<String> ALLOWED_TYPES = List.of("image/png", "image/jpeg", "image/jpg");
     private static final String UPLOAD_DIR = "uploads/profile/";
     private static final String PROFILE_FILE = "profile.png";
-
-    public ResumeService() {
-        File directory = new File("uploads/profile/");
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-    }
 
     public void saveResume(ResumeJson json) {
         this.resumeJson = json;
@@ -81,14 +77,14 @@ public class ResumeService {
 
     public void saveProfileImage(MultipartFile file) throws Exception {
         if (file != null && !file.isEmpty()) {
-            if (file.getSize() > 2097152L) {
+            if (file.getSize() > MAX_FILE_SIZE) {
                 throw new Exception("File too large. Max allowed is 2MB.");
             } else if (!ALLOWED_TYPES.contains(file.getContentType())) {
                 throw new Exception("Invalid file type. Only PNG/JPG allowed.");
             } else {
-                Files.createDirectories(Paths.get("uploads/profile/"));
-                Path savedPath = Paths.get("uploads/profile/profile.png");
-                Files.write(savedPath, file.getBytes(), new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING});
+                Files.createDirectories(Paths.get(UPLOAD_DIR));
+                Path savedPath = Paths.get(UPLOAD_DIR + PROFILE_FILE);
+                Files.write(savedPath, file.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
                 this.profileImage = file.getBytes();
             }
         } else {
@@ -98,8 +94,8 @@ public class ResumeService {
 
     public byte[] loadProfileImage() {
         try {
-            Path path = Paths.get("uploads/profile/profile.png");
-            return Files.exists(path, new LinkOption[0]) ? Files.readAllBytes(path) : this.loadDefaultImage();
+            Path path = Paths.get(UPLOAD_DIR + PROFILE_FILE);
+            return Files.exists(path) ? Files.readAllBytes(path) : this.loadDefaultImage();
         } catch (Exception var2) {
             return this.loadDefaultImage();
         }
@@ -133,7 +129,7 @@ public class ResumeService {
 
     public void resetProfileImage() {
         try {
-            Path path = Paths.get("uploads/profile/profile.png");
+            Path path = Paths.get(UPLOAD_DIR + PROFILE_FILE);
             if (Files.exists(path)) {
                 Files.delete(path);
             }
@@ -141,4 +137,10 @@ public class ResumeService {
         }
 
     }
+
+    public void clearResume() {
+        resumeJson = null;
+    }
+
+
 }

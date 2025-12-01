@@ -14,4 +14,5 @@ public class PersonalInfo {
     private String contact;
     private String linkedin;
     private String github;
+    private String about;
 }

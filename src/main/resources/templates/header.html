@@ -22,15 +22,6 @@
                         <li class="nav-item">
                             <a href="/home" class="nav-link" aria-current="page">Home</a>
                         </li>
-<!--                        &lt;!&ndash; PROFILE IMAGE &ndash;&gt;-->
-<!--                        <li class="nav-item ms-3 d-flex align-items-center">-->
-<!--                            <a href="/resume/view" class="nav-link p-0">-->
-<!--                                <img th:src="${session.profileImage != null} ?-->
-<!--                                    ${session.profileImage}  : @{/assets/images/profile1.png}"-->
-<!--                                     class="rounded-circle"-->
-<!--                                     style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #ddd;" />-->
-<!--                            </a>-->
-<!--                        </li>-->
                         <li class="nav-item dropdown ms-3">
                             <a class="nav-link dropdown-toggle p-0" href="#" id="profileMenu"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,7 +31,7 @@
                                      style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #ddd;" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
-                                <li><a class="dropdown-item" href="/resume/view">View Profile</a></li>
+                                <li><a class="dropdown-item" href="/profile">View Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
                             </ul>
